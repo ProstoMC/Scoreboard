@@ -25,7 +25,9 @@ struct ScoreboardApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView()
+            MainMenuView()
+                .environmentObject(CoreWorker())
+            //PlayersView(players: Binding<[Player]>.constant([]))
         }
         .modelContainer(sharedModelContainer)
     }

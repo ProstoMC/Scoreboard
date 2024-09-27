@@ -37,14 +37,14 @@ struct MainView: View {
                         ScrollView(.vertical) {
                             Spacer().frame(height: geometry.size.height/2 - CGFloat(items.count*30))
                                
-                            ForEach(self.items) { item in
-                                NavigationLink(destination: SetupGameView(gameType: item)) {
-                                    MainMenuCell(gameType: item)
-                                        .frame(
-                                            width: UIScreen.main.bounds.width*0.8,
-                                            height: 50)
-                                }
-                            }
+//                            ForEach(self.items) { item in
+//                                NavigationLink(destination: SetupGameView()) {
+//                                    MainMenuCell(text: item.name, systemImageName: "gear")
+//                                        .frame(
+//                                            width: UIScreen.main.bounds.width*0.8,
+//                                            height: 50)
+//                                }
+//                            }
                             Spacer().frame(height: geometry.size.height/4)
                         }
                         .scrollIndicators(.hidden)

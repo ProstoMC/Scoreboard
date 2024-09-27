@@ -1,40 +1,41 @@
 //
-//  MainMenuCell.swift
+//  SettingsCell.swift
 //  Scoreboard
 //
-//  Created by admin on 28.07.24.
+//  Created by admin on 05.08.24.
 //
 
 import SwiftUI
 
-struct MainMenuCell: View {
+import SwiftUI
+
+struct SettingsGameCell: View {
     
-    var gameType: GameType
+    var name: String
+    var systemImageName: String
     
-    init(gameType: GameType) {
-        self.gameType = gameType
-    }
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 Color.background
                 HStack {
-                    Image(systemName: "gamecontroller.fill")
+                    Image(systemName: systemImageName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        //.frame(width: 50, height: 50)
+                    //.frame(width: 50, height: 50)
                         .foregroundStyle(Color("accent"))
-                        .padding(12)
-                    
-                    VStack(alignment: .leading) {
-                        Text(gameType.name)
-                            .font(.headline)
-                            .foregroundStyle(Color("accent"))
-//                        Text("\(gameType.subtitle)")
-//                            .font(.subheadline)
-//                            .foregroundStyle(.black)
-                    }
+                        .padding(.top, 12)
+                        .padding(.bottom, 12)
+                        .padding(.leading, 12)
                     Spacer()
+                    
+                    Text(name)
+                        .font(.subheadline)
+                        .foregroundStyle(Color("accent"))
+                        .multilineTextAlignment(.leading)
+                        .padding(.trailing, 10)
+                    Spacer()
+                    
                 }
                 .clipShape(RoundedRectangle(cornerRadius: geometry.size.height/2))
                 .overlay(
@@ -53,6 +54,6 @@ struct MainMenuCell: View {
 }
 
 #Preview {
-    MainMenuCell(gameType: GameType(name: "Test Game", subtitle: "Description"))
+    SettingsGameCell(name: "Name", systemImageName: "nosign")
         .preferredColorScheme(.dark)
 }
