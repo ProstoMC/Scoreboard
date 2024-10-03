@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct ScoreboardView: View {
+    @Environment(\.dismiss) var dismiss
     
-    @ObservedObject var viewModel = GameViewModel()
+    @ObservedObject var viewModel: ScoreboardVM
+    @Binding var appState: AppState
     
-    init(game: GameModel) {
-        viewModel.setupModelView(game: game)
+    
+    init(appState: Binding<AppState>, gameWorker: ManageGameProtocol) {
+        self._appState = appState
+        viewModel = ScoreboardVM(gameWorker: gameWorker)
     }
     
     var body: some View {
@@ -21,35 +25,55 @@ struct ScoreboardView: View {
                 ZStack {
                     Color("background").ignoresSafeArea()
                     VStack {
-                        Text(viewModel.name)
-                            .foregroundStyle(Color("accent"))
-                            .font(.title3)
-                            .padding(.top, 10)
-                        Text("\(viewModel.players[0].level)")
-                        Spacer()
-                        ForEach(self.viewModel.players.indices, id: \.self) { index in
-                            PlayerCell(player: self.$viewModel.players[index])
+                        ForEach($viewModel.players) { $player in
+                            PlayerCell(player: $player, levelChangedTrigger: $viewModel.levelsChanged)
                                 .frame(height: 60)
                                 .padding(.horizontal)
+//                                .onTapGesture {
+//                                    withAnimation { () -> () in
+//                                        viewModel.players.remove(at: index)
+//                                    }
+//                                }
                         }
-                        Spacer()
+                    }
+                    //MARK: - SETUP NAVIGATION BAR
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        //Title
+                        ToolbarItem(placement: .principal) {
+                            Text(viewModel.gameName)
+                                .foregroundColor(.accent)
+                                .font(.title3)
+                        }
+                        //Back button
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                HStack {
+                                    Image(systemName: "chevron.left")
+                                    Text("Back")
+                                }
+                            }
+                        }
+                        //Max level
+                        if viewModel.maxLevelUsing {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Text("Level to win: \(viewModel.levelToWin)")
+                                    .font(.subheadline)
+                            }
+                        }
+                        
                     }
                 }
             }
             .tint(.accent)
+            
         }
     }
-    
-
-    
 }
 
 #Preview {
-    ScoreboardView(game: GameModel(
-        name: "Game",
-        diceUsing: true,
-        powerUsing: true,
-        players: [Player(name: "Aleks", level: 2, power: 1),
-                  Player(name: "Petya", level: 4, power: 9)],
-        winner: nil))
+    ScoreboardView(appState: .constant(.gameStarting), gameWorker: GameWorker())
+    
 }

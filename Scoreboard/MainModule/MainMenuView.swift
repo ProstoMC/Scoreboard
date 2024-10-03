@@ -6,59 +6,73 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct MainMenuView: View {
-    @EnvironmentObject var coreWorker: CoreWorker
+    
+    @StateObject var viewModel = MainMenuVM()
+    
+    
+    init(){
+        //print("MainMenuView init. GameViewRquired: \(viewModel.shouldOpenGameView)")
+    }
     
     var body: some View {
         GeometryReader { geometry in
             NavigationView {
                 ZStack {
                     Color("background").ignoresSafeArea()
-                    VStack {
-                        Text("S C O R E B O A R D")
-                            .foregroundStyle(Color("accent"))
-                            .font(.title3)
-                            .padding(.top, 10)
-                        Spacer()
-                        VStack {
-                            NavigationLink(destination: SetupGameView(viewModel: $coreWorker.currentGame)) {
-                                MainMenuCell(
-                                    text: "Create game",
-                                    systemImageName: "dice")
-                                    .frame(
-                                        width: geometry.size.width*0.7,
-                                        height: 55)
-                            }
-                            NavigationLink(destination: SetupGameView(viewModel: $coreWorker.currentGame)) {
-                                MainMenuCell(
-                                    text: "History",
-                                    systemImageName: "clock")
-                                    .frame(
-                                        width: geometry.size.width*0.6,
-                                        height: 40)
-                            }
-                            .padding(15)
-                            NavigationLink(destination: AppSettingsView()) {
-                                MainMenuCell(
-                                    text: "Settings",
-                                    systemImageName:"gear")
-                                    .frame(
-                                        width: geometry.size.width*0.5,
-                                        height: 40)
-                            }
+                    
+                    VStack (spacing: 15) {
+                        NavigationLink(destination: SetupGameView(appState: $viewModel.appState, gameWorker: viewModel.coreWorker.gameWorker)) {
+                            MainMenuCell(
+                                text: "Create game",
+                                systemImageName: "dice")
+                            .frame(
+                                width: geometry.size.width*0.7,
+                                height: 55)
                         }
-                        Spacer()
+                        NavigationLink(destination: SetupGameView(appState: $viewModel.appState, gameWorker: viewModel.coreWorker.gameWorker)) {
+                            MainMenuCell(
+                                text: "History",
+                                systemImageName: "clock")
+                            .frame(
+                                width: geometry.size.width*0.6,
+                                height: 40)
+                        }
+                        
+                        NavigationLink(destination: AppSettingsView()) {
+                            MainMenuCell(
+                                text: "Settings",
+                                systemImageName:"gear")
+                            .frame(
+                                width: geometry.size.width*0.5,
+                                height: 40)
+                        }
+                        
+                        
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Text("S C O R E B O A R D")
+                                .foregroundColor(.accent)
+                                .font(.title3)
+                        }
                     }
                 }
             }
             .tint(.accent)
+            
+            //MARK: - OPEN GAME VIEW
+            .fullScreenCover(isPresented: ($viewModel.shouldOpenGameView), onDismiss: {
+                viewModel.shouldOpenGameView = false
+            }) {
+                ScoreboardView(appState: $viewModel.appState, gameWorker: viewModel.coreWorker.gameWorker)
+            }
         }
     }
 }
-    
-    #Preview {
-        MainMenuView()
-            .preferredColorScheme(.light)
-    }
+
+#Preview {
+    MainMenuView()
+        .preferredColorScheme(.light)
+}

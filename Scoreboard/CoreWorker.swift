@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import Combine
 
-class CoreWorker: ObservableObject {
-    @Published var currentGame = GameViewModel()
+class CoreWorker {
+    var gameWorker = GameWorker()
+
 }

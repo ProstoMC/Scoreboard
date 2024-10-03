@@ -11,6 +11,7 @@ struct PlayerCell: View {
     
     
     @Binding var player: Player
+    @Binding var levelChangedTrigger: Bool
     
     var body: some View {
         GeometryReader { geometry in
@@ -23,7 +24,7 @@ struct PlayerCell: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: geometry.size.height * 0.6,
                                height: geometry.size.height * 0.6)
-                        .foregroundStyle(Color("accent"))
+                        .foregroundStyle(playerColors[player.colorIndex])
                         .padding(.horizontal, geometry.size.height*0.2)
                     Text(player.name)
                         .font(.title3)
@@ -33,6 +34,9 @@ struct PlayerCell: View {
                     HStack {
                         Button(action: {
                             $player.level.wrappedValue = player.level + 1
+                            withAnimation { //Animation for reordering cells
+                                levelChangedTrigger = true
+                            }
                         },
                                label: {
                             Image(systemName: "arrowshape.up.fill")
@@ -41,6 +45,9 @@ struct PlayerCell: View {
                         Text("\(player.level)")
                         Button(action: {
                             $player.level.wrappedValue = player.level - 1
+                            withAnimation {
+                                levelChangedTrigger = true
+                            }
                         },
                                label: {
                             Image(systemName: "arrowshape.down.fill")
@@ -65,6 +72,6 @@ struct PlayerCell: View {
 
 #Preview {
 
-    PlayerCell(player: Binding<Player>.constant(Player(name: "Player", level: 2, power: 2)))
+    PlayerCell(player: Binding<Player>.constant(Player(name: "Player", level: 2, power: 2)), levelChangedTrigger: .constant(false))
         .frame(width: UIScreen.main.bounds.width, height: 80)
 }

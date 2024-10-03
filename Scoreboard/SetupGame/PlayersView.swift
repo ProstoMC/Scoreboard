@@ -9,12 +9,13 @@ import SwiftUI
 
 struct PlayersView: View {
     
-    @ObservedObject var viewModel: GameViewModel
+    @ObservedObject var viewModel: SetupGameVM
     
     @State private var showingSheet = false
     @State private var editedPlayer: Player = Player()
     @State private var editIndex: Int? = nil //If nil - create new player
     @State private var saveButtonFlag: Bool = false
+    @State private var deleteButtonFlag: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -27,24 +28,37 @@ struct PlayersView: View {
                     columns: [GridItem(.fixed(geometry.size.width/2)), GridItem(.fixed(geometry.size.width/2))], alignment: .center, content: {
                         if viewModel.players.count > 0 {
                             ForEach((0...viewModel.players.count-1), id: \.self) { index in
-                                PlayerTile(name: viewModel.players[index].name, imageName: "person.crop.circle.fill", color: playerColors[viewModel.players[index].colorIndex])
-                                    .frame(width: geometry.size.width/2.1, height: geometry.size.width/5.5)
-                                    .onTapGesture {
-                                        editedPlayer = viewModel.players[index]
-                                        editIndex = index
-                                        showingSheet.toggle()
-                                    }
+                                Button(action: {
+                                    editedPlayer = viewModel.players[index]
+                                    editIndex = index
+                                    showingSheet.toggle()
+                                }, label: {
+                                    PlayerTile(
+                                        name: viewModel.players[index].name,
+                                        imageName: "person.crop.circle.fill",
+                                        color: playerColors[viewModel.players[index].colorIndex]
+                                    )
+                                }).frame(width: geometry.size.width/2.1, height: geometry.size.width/6)
                             }
                         }
-                        PlayerTile(name: "Add new", imageName: "plus.circle")
-                            .frame(width: geometry.size.width/2.1, height: geometry.size.width/5.5)
-                            .onTapGesture {
-                                editedPlayer = Player()
-                                editIndex = nil
-                                showingSheet.toggle()
-                            }
+                        Button(action: {
+                            editedPlayer = Player()
+                            editIndex = nil
+                            showingSheet.toggle()
+                        }, label: {
+                            PlayerTile(name: "Add new", imageName: "plus.circle")
+                        }).frame(width: geometry.size.width/2.1, height: geometry.size.width/6)
+                        
+                        
+                        
+
                     })
                 .sheet(isPresented: $showingSheet, onDismiss: {
+                    if deleteButtonFlag {
+                        if editIndex != nil {
+                            viewModel.deletePlayer(index: editIndex!)
+                        }
+                    }
                     if saveButtonFlag {
                         if editIndex == nil {
                             viewModel.addPlayer(newPlayer: editedPlayer)
@@ -57,7 +71,7 @@ struct PlayersView: View {
                     editedPlayer = Player()
                 }) 
                 {
-                    AddPlayerView(player: self.$editedPlayer, editIndex: $editIndex, saveButtonPressed: $saveButtonFlag)
+                    AddPlayerView(player: self.$editedPlayer, editIndex: $editIndex, saveButtonPressed: $saveButtonFlag, deleteButtonPressed: $deleteButtonFlag)
                         .presentationDetents([.medium])
                 }
             }
@@ -66,7 +80,7 @@ struct PlayersView: View {
 }
 
 #Preview {
-    PlayersView(viewModel: GameViewModel())
+    PlayersView(viewModel: SetupGameVM(gameWorker: GameWorker()))
         .preferredColorScheme(.light)
 }
 
