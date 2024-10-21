@@ -13,18 +13,27 @@ import SwiftUI
 class SetupGameVM: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     
-    var gameWorker: SetupGameProtocol
+    var gameWorker: SetupGameProtocol = CoreWorker.shared.gameWorker
     
     @Published var gameImageName: String = ""
     @Published var gameName = ""
     @Published var players: [Player] = []
-    @Published var maxLevelUsing = false
-    @Published var powerUsing = false
-    @Published var diceUsing = false
-    @Published var gameState: GameState = .notReady
     
-    init(gameWorker: SetupGameProtocol) {
-        self.gameWorker = gameWorker
+    
+    @Published var stuffUsing = false
+    
+    @Published var maxLevelUsing = false
+    @Published var levelToWin: Int = 0
+    
+    @Published var diceUsing = false
+    @Published var diceCount: Int = 0
+    
+    @Published var gameState: GameState = .new
+    
+    @Published var setupViewType: String = ""
+    
+    init() {
+        gameWorker.readyToStartCheck()
         subscribing()
     }
     
@@ -40,17 +49,29 @@ class SetupGameVM: ObservableObject {
         gameWorker.resetGame()
     }
     
-    func toggleTrait(trait: String) {
-        gameWorker.toggleTrait(trait: trait)
+    func togglePowerUsing() {
+        stuffUsing.toggle()
+        saveTraits()
     }
     
     func setGameToStart() {
+        if gameName == "" {
+            gameWorker.setGameName(name: "New game")
+        }
         gameWorker.setGameState(gameState: .inProgress)
     }
     
     func setGameName() {
         print("GAME'S NAME: \(gameName)")
         gameWorker.setGameName(name: gameName)
+    }
+    
+    func saveTraits() {
+        gameWorker.setTraits(
+            levelToWin: levelToWin,
+            diceCount: diceCount,
+            powerUsing: stuffUsing
+        )
     }
     
 }
@@ -60,19 +81,34 @@ extension SetupGameVM {
         gameWorker.gameSubject.sink(receiveValue: { game in
             
             DispatchQueue.main.async {
+                //print("Game updated in Setup Module")
+                
                 self.players = game.players
-                self.maxLevelUsing = game.maxLevelUsing
-                self.powerUsing = game.powerUsing
-                self.diceUsing = game.diceUsing
+                
+                self.stuffUsing = game.stuffUsing
+                self.levelToWin = game.levelToWin
+                self.diceCount = game.diceCount
+                
+                
                 self.gameState = game.state
                 self.gameName = game.name
-                //Setup image
+                
+                
+                //Setup image and traits
+                
                 self.gameImageName = "play.circle"
-                if game.maxLevelUsing { self.gameImageName = "arrowshape.up" }
-                if game.diceUsing { self.gameImageName = "dice" }
+                self.maxLevelUsing = false
+                self.diceUsing = false
+                
+                if game.levelToWin > 0 {
+                    self.gameImageName = "arrowshape.up"
+                    self.maxLevelUsing = true
+                }
+                if game.diceCount > 0 {
+                    self.gameImageName = "dice"
+                    self.diceUsing = true
+                }
             }
-            
-            
         }).store(in: &subscriptions)
         
         //Get model after subscribing

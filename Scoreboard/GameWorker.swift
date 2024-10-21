@@ -14,11 +14,15 @@ protocol SetupGameProtocol {
     
     func addPlayer(newPlayer: Player)
     func deletePlayer(index: Int)
-    func toggleTrait(trait: String)
+    func setTraits(levelToWin: Int, diceCount: Int, powerUsing: Bool)
+    func readyToStartCheck()
+    
     func resetGame()
     func setGameState(gameState: GameState)
+    func getGameState() -> GameState
     func setGameName(name: String)
     func sendGame()
+   
     
 }
 
@@ -41,12 +45,8 @@ class GameWorker {
     
     private var subscriptions = Set<AnyCancellable>()
     
-    init() {
-        //print("GameWorker has been initialized")
-        //subscribingToPlayersLevel()
-    }
-    
     func sendGame() {
+        print("Game state: \(game.state.rawValue)")
         gameSubject.send(game)
     }
     
@@ -58,6 +58,9 @@ class GameWorker {
     func setGameState(gameState: GameState) {
         game.state = gameState
         sendGame()
+    }
+    func getGameState() -> GameState {
+        game.state
     }
  
     
@@ -83,61 +86,67 @@ extension GameWorker: SetupGameProtocol {
         sendGame()
     }
     
-    func toggleTrait(trait: String) {
-        switch trait {
-        case "diceUsing":
-            game.diceUsing.toggle()
-        case "powerUsing":
-            game.powerUsing.toggle()
-        case "maxLevelUsing":
-            game.maxLevelUsing.toggle()
-        default:
-            return
-        }
+    func setTraits(levelToWin: Int, diceCount: Int, powerUsing: Bool) {
+        game.levelToWin = levelToWin
+        game.diceCount = diceCount
+        game.stuffUsing = powerUsing
+        printTraits()
         sendGame()
     }
-    
 
-    
     func setGameName(name: String) {
         game.name = name
-        print(game.name)
+    }
+    
+    func readyToStartCheck() {
+        if game.players.count > 1 {
+            game.state = .readyToStart
+        }
+        else {
+            game.state = .new
+        }
     }
 }
 
 extension GameWorker: ManageGameProtocol {
     func rangePlayersByLevel() {
         game.players.sort { $0.level < $1.level }
-//        for player in game.players {
-//            print("\(player.name) is at level \(player.level)")
-//        }
         sendGame()
     }
     
     func updatePlayers(players: [Player]) {
         game.players = players
-//        game.players.sort { $0.level > $1.level }
-//        sendGame()
+        checkPlayersForCloseToWin()
+        sendGame()
     }
 }
 
 
 //Internal functions
 extension GameWorker {
-    
-//    private func subscribingToPlayersLevel() {
-//        for player in game.players {
-//            let 
-//        }
-//    }
-    
-    private func readyToStartCheck() {
-        if game.players.count > 1 {
-            game.state = .readyToStart
-        }
-        else {
-            game.state = .notReady
+
+    private func checkPlayersForCloseToWin() {
+        for i in game.players.indices {
+            if game.players[i].level >= game.levelToWin - 1 ||
+                Double(game.players[i].level) >= Double(game.levelToWin)*0.9 {
+                
+                game.players[i].closeToWin = true
+                
+            }
+            else {
+                game.players[i].closeToWin = false
+            }
         }
     }
+    
+    
+    private func printTraits() {
+        print("---\(game.name)---")
+        print("Level to win: \(game.levelToWin)")
+        print("Dice count: \(game.diceCount)")
+        print("Power using: \(game.stuffUsing)")
+    }
+    
+
     
 }

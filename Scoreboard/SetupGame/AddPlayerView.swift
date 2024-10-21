@@ -22,6 +22,31 @@ struct AddPlayerView: View {
             ZStack {
                 Color.background.ignoresSafeArea()
                 playerColors[player.colorIndex].opacity(0.2).ignoresSafeArea()
+                
+                if editIndex != nil {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                deleteButtonPressed = true
+                                dismiss()
+                            }) {
+                                Image(systemName: "trash.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundStyle(Color(#colorLiteral(red: 0.9916326404, green: 0.3502395153, blue: 0.3023895621, alpha: 1)))
+                                    .frame(width: 40, height: 40)
+                                    .padding(20)
+                            }
+                        }
+                        Spacer()
+                    }
+                    
+                    
+                    
+                }
+                
+                
                 VStack {
                     LineView(width: geometry.size.width/8, height: 5, color: .elements)
                         .padding(.top)
@@ -39,7 +64,6 @@ struct AddPlayerView: View {
                             .frame(alignment: .leading)
                             .font(.subheadline)
                             .foregroundStyle(Color.accent)
-                            .padding(.top)
                         Spacer()
                     }
                     
@@ -100,35 +124,27 @@ struct AddPlayerView: View {
                                     
                                 }
                             })
-                    }
+                    }.padding(.bottom)
                     
                     
-                    Spacer()
+                   
                     
                     //BUTTONS BLOCK
-                    
-                    Button(action: {
-                        saveButtonPressed = true
-                        dismiss()
-                    }) {
-                        Text("S a v e")
-                            .tint(.accent)
-                            .font(.subheadline)
-                            .frame(width: geometry.size.width/4, height: 40)
-                            .overlay(RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.elements))
-                    }
-                    if editIndex != nil {
+                    VStack {
                         Button(action: {
-                            deleteButtonPressed = true
+                            saveButtonPressed = true
                             dismiss()
                         }) {
-                            Text("Remove")
-                                .foregroundStyle(Color(#colorLiteral(red: 1, green: 0.1174641177, blue: 0.1611046791, alpha: 1)))
+                            Text("S a v e")
+                                .tint(.accent)
                                 .font(.subheadline)
-                                .padding()
-                        }.padding()
+                                .frame(width: geometry.size.width/4, height: 40)
+                                .overlay(RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.elements))
+                            
+                        }
                     }
+
                     Spacer()
                 }
                 .padding(.horizontal)
@@ -144,7 +160,7 @@ struct AddPlayerView: View {
 #Preview {
     AddPlayerView(
         player: .constant(Player()),
-        editIndex: .constant(nil),
+        editIndex: .constant(2),
         saveButtonPressed: .constant(false),
         deleteButtonPressed: .constant(false))
     .frame(height: UIScreen.main.bounds.height / 2)

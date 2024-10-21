@@ -10,150 +10,179 @@ import SwiftUI
 struct SetupGameView: View {
     @Environment(\.dismiss) var dismiss
     
-    @ObservedObject var viewModel: SetupGameVM
+    @StateObject var viewModel = SetupGameVM()
     @FocusState private var nameTextFieldIsFocused: Bool
-    @Binding var appState: AppState
     
-    init(appState: Binding<AppState>, gameWorker: SetupGameProtocol) {
-        //print("Initializing SetupGameView")
-        self._appState = appState
-        viewModel = SetupGameVM(gameWorker: gameWorker)
-    }
+    @State private var subviewIsShown: Bool = false
+    @State private var saveButtonFlag: Bool = false
     
     var body: some View {
-
         
         GeometryReader { geometry in
-            ZStack {
-                Color.background.ignoresSafeArea()
-                VStack {
-                    Image(systemName: viewModel.gameImageName)
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundStyle(.elements)
-                        .frame(width: geometry.size.width/5, height: geometry.size.width/5)
-                        .padding(.top)
+            NavigationView {
+                ZStack {
+                    Color.background.ignoresSafeArea()
+                    VStack {
+                        Image(systemName: viewModel.gameImageName)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundStyle(.elements)
+                            .frame(width: geometry.size.width/6, height: geometry.size.width/6)
+                            .padding(.top)
                         
-                    TextField("New game", text: $viewModel.gameName)
-                        .focused($nameTextFieldIsFocused)
-                        .onSubmit {
-                            closeKeyboard()
-                        }
-                        .submitLabel(.done)
-                        .frame(width: geometry.size.width/2)
-                        .textFieldStyle(.plain)
-                        .font(.title)
-                        .foregroundStyle(Color.accent)
-                        .multilineTextAlignment(.center)
-                        .underlineTextField()
-                        .padding()
+                        TextField("New game", text: $viewModel.gameName)
+                            .focused($nameTextFieldIsFocused)
+                            .onSubmit {
+                                closeKeyboard()
+                            }
+                            .submitLabel(.done)
+                            .frame(width: geometry.size.width/2)
+                            .textFieldStyle(.plain)
+                            .font(.title2)
+                            .foregroundStyle(Color.accent)
+                            .multilineTextAlignment(.center)
+                            .underlineTextField()
+                            .padding(.bottom)
+                        //Traits panel
                         
-                    
-                    //Traits panel
-                    
-                    HStack {
-                        Button(action: {
-                            closeKeyboard()
-                            self.viewModel.toggleTrait(trait: "maxLevelUsing")
+                        HStack {
+                            Button(action: {
+                                closeKeyboard()
+                                viewModel.setupViewType = "maxLevel"
+                                subviewIsShown = true
+                            }, label: {
+                                SettingsGameCell(name: "Max Level", systemImageName: "arrowshape.up", isActive: $viewModel.maxLevelUsing)
+                            })
+                            .frame(width: geometry.size.width*0.28, height: geometry.size.width*0.25/2)
                             
-                        }, label: {
-                            SettingsGameCell(name: "Max Level", systemImageName: "arrowshape.up", isActive: $viewModel.maxLevelUsing)
-                        })
-                        .frame(width: geometry.size.width*0.28, height: geometry.size.width*0.25/2)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            closeKeyboard()
-                            self.viewModel.toggleTrait(trait: "powerUsing")
+                            Spacer()
                             
-                        }, label: {
-                            SettingsGameCell(name: "Use Power", systemImageName: "bolt.fill", isActive: $viewModel.powerUsing)
-                        })
-                        .frame(width: geometry.size.width*0.28, height: geometry.size.width*0.25/2)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            closeKeyboard()
-                            self.viewModel.toggleTrait(trait: "diceUsing")
+                            Button(action: {
+                                closeKeyboard()
+                                self.viewModel.togglePowerUsing()
+                                
+                            }, label: {
+                                SettingsGameCell(name: "Use Stuff", systemImageName: "shield.righthalf.filled", isActive: $viewModel.stuffUsing)
+                            })
+                            .frame(width: geometry.size.width*0.28, height: geometry.size.width*0.25/2)
                             
-                        }, label: {
-                            SettingsGameCell(name: "Use Dice", systemImageName: "dice", isActive: $viewModel.diceUsing)
-                        })
-                        .frame(width: geometry.size.width*0.28, height: geometry.size.width*0.25/2)
-                    }
-                    .frame(width: geometry.size.width*0.9)
-                    
-                    LineView(width: geometry.size.width*0.9, height: 1, color: .elements)
-                        .padding()
-                    
-                    //Players panel
-                    
-                    PlayersView(viewModel: viewModel)
-                        .frame(
-                            maxWidth: geometry.size.width*0.9,
-                            minHeight: geometry.size.height*0.3
-                        )
-                        
-                        
-                        
-                    
-                    LineView(width: geometry.size.width*0.6, height: 1, color: .elements)
-                        .padding()
-                    
-                    //Button start
-                    
-                    Button(action: {
-                        if viewModel.gameState == .readyToStart {
-                            appState = .gameStarting
-                            viewModel.setGameToStart()
-                            dismiss()
+                            Spacer()
+                            
+                            Button(action: {
+                                closeKeyboard()
+                                viewModel.setupViewType = "dice"
+                                subviewIsShown = true
+                                
+                            }, label: {
+                                SettingsGameCell(name: "Use Dice", systemImageName: "dice", isActive: $viewModel.diceUsing)
+                            })
+                            .frame(width: geometry.size.width*0.28, height: geometry.size.width*0.25/2)
                         }
+                        .frame(width: geometry.size.width*0.9)
                         
-                    }, label: {
-                        if viewModel.gameState == .notReady {
-                            PlayerTile(
-                                name: "Start",
-                                imageName: "play.circle"
-                                )
-                        } else {
-                            PlayerTile(
-                                name: "Start",
-                                imageName: "play.circle",
-                                color: .elements
-                                )
-                        }
-
-                    }).frame(width: geometry.size.width/2.5, height: 60)
-                    
-                    //Button RESET
-                    
-                    Button(action: {
-                        viewModel.resetGame()
-                    }, label: {
-                        Text("Reset")
-                            .font(.subheadline)
+                        LineView(width: geometry.size.width*0.9, height: 1, color: .elements)
                             .padding()
-                            .foregroundStyle(.accent)
-                    })
-                    Spacer()
+                        
+                        //Players panel
+                        
+                        PlayersView(viewModel: viewModel)
+                            .frame(
+                                maxWidth: geometry.size.width*0.9,
+                                minHeight: geometry.size.height*0.3
+                            )
+                        
+                        LineView(width: geometry.size.width*0.6, height: 1, color: .elements)
+                            
+                        
+                        //Button start
+                        
+                        Button(action: {
+                            if viewModel.gameState == .readyToStart {
+                                viewModel.setGameToStart()
+                                dismiss()
+                            }
+                            
+                        }, label: {
+                            if viewModel.gameState == .new {
+                                MainMenuCell(
+                                    text: "Start",
+                                    systemImageName: "play.circle"
+                                )
+                            } else {
+                                PulseCell(
+                                    text: "Start",
+                                    systemImageName: "play.circle")
+                            }
+                            
+                        }).frame(width: geometry.size.width/2.8, height: 50)
+                            .padding()
+                        
+
+                        
+                        
+                    }
+                }.onTapGesture {
+                    closeKeyboard()
+                }
+                // MARK: - NAVIGATION BAR SETUP
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    //Title
+                    ToolbarItem(placement: .principal) {
+                        Text("S E T U P  G A M E")
+                            .foregroundColor(.accent)
+                            .font(.title3)
+                    }
+                    //Back button
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            HStack {
+                                Image(systemName: "chevron.left")
+                                    .foregroundStyle(.accent)
+                                Text("Back")
+                                    .foregroundStyle(.accent)
+                            }
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: {
+                            viewModel.resetGame()
+                        }) {
+                            HStack {
+                                
+                                    
+                                Text("Reset")
+                                    .foregroundStyle(.accent)
+                                Image(systemName: "eraser")
+                                    .foregroundStyle(.accent)
+                            }
+                        }
+                    }
+                    
                     
                 }
-            }.onTapGesture {
-                closeKeyboard()
+                
+                //MARK: - SUBVIEWS
+                .sheet(isPresented: $subviewIsShown, onDismiss: {
+                    viewModel.saveTraits()
+                }, content: {
+                    if viewModel.setupViewType == "dice" {
+                        DiceSetupView(diceCount: $viewModel.diceCount)
+                            .presentationDetents([.medium])
+                    }
+                    else {
+                        LevelSetupView(level: $viewModel.levelToWin)
+                            .presentationDetents([.medium])
+                    }
+                })
             }
-//            .onDisappear() {
-//                if viewModel.gameState == .readyToStart {
-//                    openGameViewAfterSetup = true
-//                }
-//                else {
-//                    openGameViewAfterSetup = false
-//                }
-//            }
-            
+
         }
     }
+    
+    //MARK: - FUNCTIONS
     
     private func closeKeyboard() {
         if nameTextFieldIsFocused {
@@ -166,7 +195,7 @@ struct SetupGameView: View {
 }
 
 #Preview {
-    SetupGameView(appState: .constant(.noActiveGames), gameWorker: GameWorker())
+    SetupGameView()
         .preferredColorScheme(.light)
 }
 

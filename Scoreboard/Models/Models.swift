@@ -11,26 +11,28 @@ import SwiftUI
 struct GameModel: Identifiable {
     let id = UUID()
     var name: String = ""
-    var diceUsing: Bool = false
-    var powerUsing: Bool = false
-    var maxLevelUsing: Bool = false
-    var levelToWin: Int = 10
+    
+    var stuffUsing: Bool = false
+    var diceCount: Int = 0
+    var levelToWin: Int = 0
     
     var players: [Player] = []
     var winner: Player! = nil
     
-
-    
-    var state: GameState = .notReady
+    var state: GameState = .new
 }
 
 struct Player: Identifiable, Hashable {
     let id = UUID()
     var name: String = ""
     var level: Int = 0
-    var power: Int = 0
+    var stuff: Int = 0
     var colorIndex: Int = 0
+    
+    var closeToWin: Bool = false // For highlighting player cell when it close to win
 }
+
+
 
 let playerColors: [Color] = [.black, .red, .blue, .white, .green, .yellow, .brown, .gray, .purple, .orange]
 
@@ -40,16 +42,25 @@ enum ActionsWithPlayer {
     case editPlayer
 }
 
-enum GameState {
-    case notReady
-    case readyToStart
-    case inProgress
-    case finished
-    case paused
+enum GameState: String {
+    case new = "New"
+    case readyToStart = "Ready to start"
+    case inProgress = "In progress"
+    case finished = "Finished"
+    case paused = "Paused"
+    case empty = "Empty"
 }
 
 enum AppState {
     case noActiveGames
     case gameStarting
     case gameEnded
+}
+
+enum Subviews: String {
+    case scoreboard
+    case setupGame
+    case dice
+    case maxLevel
+    case editPlayer
 }

@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 class CoreWorker {
+    static let shared = CoreWorker()
+    
     var gameWorker = GameWorker()
-
 }

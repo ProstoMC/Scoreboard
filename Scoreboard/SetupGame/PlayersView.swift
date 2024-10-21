@@ -20,8 +20,8 @@ struct PlayersView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                Text("Players")
-                    .font(.title3)
+                Text("P L A Y E R S")
+                    .font(.subheadline)
                     .foregroundStyle(Color.accent)
                 
                 LazyVGrid(
@@ -80,7 +80,7 @@ struct PlayersView: View {
 }
 
 #Preview {
-    PlayersView(viewModel: SetupGameVM(gameWorker: GameWorker()))
+    PlayersView(viewModel: SetupGameVM())
         .preferredColorScheme(.light)
 }
 
@@ -103,9 +103,9 @@ struct PlayerTile: View {
                         .aspectRatio(contentMode: .fit)
                     //.frame(width: 50, height: 50)
                         .foregroundStyle(color ?? .accent)
-                        .overlay(Circle()
-                            .strokeBorder(Color.elements, lineWidth: 1)
-                        )
+//                        .overlay(Circle()
+//                            .strokeBorder(Color.elements, lineWidth: 1)
+//                        )
                         .padding(.top, 12)
                         .padding(.bottom, 12)
                         .padding(.leading, 12)
