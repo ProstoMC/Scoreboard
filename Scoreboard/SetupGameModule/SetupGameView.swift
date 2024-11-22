@@ -23,12 +23,12 @@ struct SetupGameView: View {
                 ZStack {
                     Color.background.ignoresSafeArea()
                     VStack {
-                        Image(systemName: viewModel.gameImageName)
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundStyle(.elements)
-                            .frame(width: geometry.size.width/6, height: geometry.size.width/6)
-                            .padding(.top)
+//                        Image(systemName: viewModel.gameImageName)
+//                            .resizable()
+//                            .scaledToFit()
+//                            .foregroundStyle(.elements)
+//                            .frame(width: geometry.size.width/6, height: geometry.size.width/6)
+//                            .padding(.top)
                         
                         TextField("New game", text: $viewModel.gameName)
                             .focused($nameTextFieldIsFocused)
@@ -91,35 +91,42 @@ struct SetupGameView: View {
                                 minHeight: geometry.size.height*0.3
                             )
                         
-                        LineView(width: geometry.size.width*0.6, height: 1, color: .elements)
+                       // LineView(width: geometry.size.width*0.6, height: 1, color: .elements)
                             
                         
                         //Button start
                         
                         Button(action: {
-                            if viewModel.gameState == .readyToStart {
+                            
+                            if viewModel.readyToStart {
                                 viewModel.setGameToStart()
                                 dismiss()
                             }
                             
                         }, label: {
-                            if viewModel.gameState == .new {
+                            
+                            switch viewModel.gameState {
+                            case .new:
+                                if viewModel.readyToStart {
+                                    PulseCell(text: "Start", systemImageName: "play.circle")
+                                }
+                                else {
+                                    MainMenuCell(text: "Start",systemImageName: "play.circle")
+                                }
+                            case .edited:
+                                MainMenuCell(
+                                    text: "Save",
+                                    systemImageName: "tray.circle"
+                                )
+                            default:
                                 MainMenuCell(
                                     text: "Start",
                                     systemImageName: "play.circle"
-                                )
-                            } else {
-                                PulseCell(
-                                    text: "Start",
-                                    systemImageName: "play.circle")
+                                    )
                             }
                             
                         }).frame(width: geometry.size.width/2.8, height: 50)
                             .padding()
-                        
-
-                        
-                        
                     }
                 }.onTapGesture {
                     closeKeyboard()
@@ -151,8 +158,6 @@ struct SetupGameView: View {
                             viewModel.resetGame()
                         }) {
                             HStack {
-                                
-                                    
                                 Text("Reset")
                                     .foregroundStyle(.accent)
                                 Image(systemName: "eraser")
@@ -160,13 +165,11 @@ struct SetupGameView: View {
                             }
                         }
                     }
-                    
-                    
                 }
                 
                 //MARK: - SUBVIEWS
                 .sheet(isPresented: $subviewIsShown, onDismiss: {
-                    viewModel.saveTraits()
+                    viewModel.setTraitsButtons()
                 }, content: {
                     if viewModel.setupViewType == "dice" {
                         DiceSetupView(diceCount: $viewModel.diceCount)
@@ -186,7 +189,7 @@ struct SetupGameView: View {
     
     private func closeKeyboard() {
         if nameTextFieldIsFocused {
-            viewModel.setGameName()
+            //viewModel.setGameName()
         }
         nameTextFieldIsFocused = false
     }

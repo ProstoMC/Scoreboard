@@ -41,16 +41,10 @@ struct AddPlayerView: View {
                         }
                         Spacer()
                     }
-                    
-                    
-                    
                 }
-                
-                
                 VStack {
                     LineView(width: geometry.size.width/8, height: 5, color: .elements)
                         .padding(.top)
-                    
                     
                     Text((editIndex == nil) ? "N e w   p l a y e r" : player.name)
                         .font(.title3)
@@ -125,9 +119,6 @@ struct AddPlayerView: View {
                                 }
                             })
                     }.padding(.bottom)
-                    
-                    
-                   
                     
                     //BUTTONS BLOCK
                     VStack {
