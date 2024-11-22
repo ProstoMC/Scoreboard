@@ -8,9 +8,10 @@
 import Foundation
 import SwiftUI
 
-struct GameModel: Identifiable {
-    let id = UUID()
+struct GameModel: Identifiable, Hashable, Codable {
+    var id = UUID()
     var name: String = ""
+    var systemImageName = "play.circle"
     
     var stuffUsing: Bool = false
     var diceCount: Int = 0
@@ -20,19 +21,22 @@ struct GameModel: Identifiable {
     var winner: Player! = nil
     
     var state: GameState = .new
+    var date: Date = .now
 }
 
-struct Player: Identifiable, Hashable {
-    let id = UUID()
+
+struct Player: Identifiable, Hashable, Codable {
+    
+    var id = UUID()
     var name: String = ""
     var level: Int = 0
     var stuff: Int = 0
     var colorIndex: Int = 0
     
     var closeToWin: Bool = false // For highlighting player cell when it close to win
+    
+  
 }
-
-
 
 let playerColors: [Color] = [.black, .red, .blue, .white, .green, .yellow, .brown, .gray, .purple, .orange]
 
@@ -42,13 +46,14 @@ enum ActionsWithPlayer {
     case editPlayer
 }
 
-enum GameState: String {
+enum GameState: String, Codable {
     case new = "New"
-    case readyToStart = "Ready to start"
     case inProgress = "In progress"
+    case hasAWinner = "Has a winner"
     case finished = "Finished"
     case paused = "Paused"
     case empty = "Empty"
+    case edited = "Edited"
 }
 
 enum AppState {
@@ -63,4 +68,9 @@ enum Subviews: String {
     case dice
     case maxLevel
     case editPlayer
+    case winner
+}
+
+struct PreferedColorScheme: EnvironmentKey {
+    static let defaultValue: ColorScheme = .dark
 }

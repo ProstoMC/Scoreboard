@@ -43,10 +43,10 @@ struct PulseCell: View {
                     Image(systemName: systemImageName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: geometry.size.height * 0.6,
-                               height: geometry.size.height * 0.6)
+                        .frame(width: geometry.size.height * 0.5,
+                               height: geometry.size.height * 0.5)
                         .foregroundStyle(Color("accent"))
-                        .padding(.leading, geometry.size.height*0.2)
+                        .padding(.leading, geometry.size.height*0.25)
                     Spacer()
                 }
                 

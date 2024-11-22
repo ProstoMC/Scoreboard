@@ -8,38 +8,39 @@
 import SwiftUI
 
 struct AppSettingsView: View {
+    
+    @StateObject private var viewModel = AppSettingsVM()
+    
     var body: some View {
         GeometryReader { geometry in
             
             ZStack {
                 Color("background").ignoresSafeArea()
                 VStack {
-                    Text("S E T T I N G S")
-                        .foregroundStyle(Color("accent"))
-                        .font(.title3)
-                        .padding(.top, 10)
                     Spacer()
-                    VStack {
-                        NavigationLink(destination: AppSettingsView()) {
+                    VStack(spacing: 15) {
+                        NavigationLink(destination: ColorSchemeView()) {
                             MainMenuCell(
-                                text: "Color scheme",
+                                text: "App Theme",
                                 systemImageName: "circle.lefthalf.filled.righthalf.striped.horizontal")
                             .frame(
                                 width: geometry.size.width*0.6,
                                 height: 50)
                         }
-                        NavigationLink(destination: AppSettingsView()) {
+                        
                             MainMenuCell(
-                                text: "Clean history",
+                                text: "Clear History",
                                 systemImageName: "eraser")
                             .frame(
                                 width: geometry.size.width*0.6,
                                 height: 50)
-                        }
-                        .padding(15)
+                            .onTapGesture {
+                                viewModel.clearHistoryAlert = true
+                            }
+                        
                         NavigationLink(destination: AppSettingsView()) {
                             MainMenuCell(
-                                text: "Remove ads",
+                                text: "Remove Ads",
                                 systemImageName:"xmark.circle")
                             .frame(
                                 width: geometry.size.width*0.6,
@@ -48,10 +49,35 @@ struct AppSettingsView: View {
                     }
                     Spacer()
                 }
+                //Bottom text on ZStack
+                VStack {
+                    Spacer()
+                    Text(viewModel.appVersion)
+                        .font(.subheadline)
+                        .foregroundStyle(.elements)
+                    Text("by sloniklm")
+                        .font(.subheadline)
+                        .foregroundStyle(.elements)
+                }
+
             }
+            .confirmationDialog("Plug", isPresented: $viewModel.clearHistoryAlert) {
+                Button("Clear history", role: .destructive) {
+                    viewModel.clearHistory()
+                }
+            }
+            
         }
         .tint(.accent)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("S E T T I N G S")
+                    .foregroundColor(.accent)
+                    .font(.title3)
+            }
+        }
     }
+    
     
 }
 #Preview {

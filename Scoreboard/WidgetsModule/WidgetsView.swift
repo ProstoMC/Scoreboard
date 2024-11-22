@@ -9,7 +9,27 @@ import SwiftUI
 
 struct WidgetsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        GeometryReader { geometry in
+            
+            ZStack {
+                Color("background").ignoresSafeArea()
+                VStack {
+                    DiceWidgetView()
+                        .frame(height: geometry.size.height/2.1)
+                    LineView(width: geometry.size.width*0.95, height: 1, color: .accent)
+                    DiceWidgetView()
+                        .frame(height: geometry.size.height/2.1)
+                }
+
+            }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("W I D G E T S")
+                        .foregroundColor(.accent)
+                        .font(.title3)
+                }
+            }
+        }
     }
 }
 

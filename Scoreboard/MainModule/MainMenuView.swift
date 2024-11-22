@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MainMenuView: View {
     
-    @StateObject var viewModel = MainMenuVM()
+    @StateObject private var viewModel = MainMenuVM()
     
     @State private var pulseValue: CGFloat = 1.0
-    @State private var coordinate: CGFloat = -100.0
+    
     
     init() {
         print("Main menu init")
@@ -28,8 +29,7 @@ struct MainMenuView: View {
                     VStack {
                         if viewModel.showResumeGameView {
                             Button(action: {
-                                viewModel.setGameState(state: .inProgress)
-                                viewModel.openSubviewIfNeeded()
+                                viewModel.resumeButtonPressed()
                             }, label: {
                                 PulseCell(text: viewModel.currentGameName, systemImageName: "pause.circle", description: "paused")
                                     .frame(
@@ -42,20 +42,15 @@ struct MainMenuView: View {
                     }
                     
                     VStack (spacing: 15) {
-                        //EDIT BUTTON
-
-                        
                         Spacer()
+                        //  Create button
                         
-                        //  Create or edit button
-                        
-                        if viewModel.currenGameState == .paused || viewModel.currenGameState == .inProgress {
+                        if viewModel.showResumeGameView {
                             Button(action: {
-                                viewModel.typeOfSubview = .setupGame
-                                viewModel.showSubview = true
+                                viewModel.createGamePressed()
                             }) {
                                 MainMenuCell(
-                                    text: "Edit game", systemImageName: "dice")
+                                    text: "Create new game", systemImageName: "dice")
                                 .frame(
                                     width: geometry.size.width*0.7,
                                     height: 55)
@@ -63,27 +58,36 @@ struct MainMenuView: View {
                         }
                         else {
                             Button(action: {
-                                viewModel.typeOfSubview = .setupGame
-                                viewModel.showSubview = true
+                                viewModel.createGamePressed()
                             }) {
                                 PulseCell(
-                                    text: "Create new game", systemImageName: "dice")
+                                    text: "Create new game",
+                                    systemImageName: "dice")
                                 .frame(
                                     width: geometry.size.width*0.7,
                                     height: 55)
                             }
                         }
                         
+                        NavigationLink(destination: WidgetsView()) {
+                            MainMenuCell(
+                                text: "Widgets",
+                                systemImageName: "circle.grid.2x2")
+                                .frame(
+                                    width: geometry.size.width*0.65,
+                                    height: 40)
+                        }
+                        
                         // History button
                         
-//                        NavigationLink(destination: SetupGameView()) {
-//                            MainMenuCell(
-//                                text: "History",
-//                                systemImageName: "clock")
-//                            .frame(
-//                                width: geometry.size.width*0.6,
-//                                height: 40)
-//                        }
+                        NavigationLink(destination: HistoryView()) {
+                            MainMenuCell(
+                                text: "History",
+                                systemImageName: "clock")
+                            .frame(
+                                width: geometry.size.width*0.575,
+                                height: 40)
+                        }
                         
                         // Settings button
                         
@@ -96,8 +100,9 @@ struct MainMenuView: View {
                                 height: 40)
                         }
                         Spacer()
-                        
-                        
+                        Text("by sloniklm")
+                            .font(.subheadline)
+                            .foregroundStyle(.elements)
                     }
                     .onAppear {
                         withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
@@ -115,22 +120,22 @@ struct MainMenuView: View {
             }
             .tint(.accent)
             
-            //MARK: - OPEN SUBVIEWS VIEW
-            .fullScreenCover(isPresented: ($viewModel.showSubview), onDismiss: {
-                viewModel.showSubview = false
+            //MARK: - OPEN SUBVIEWS
+            .fullScreenCover(isPresented: $viewModel.showScoreboardView, onDismiss: {
+                viewModel.showScoreboardView = false
+                viewModel.handleScoreboardViewClosing()
+                
+            }) {
+                ScoreboardView()
+            }
+            .fullScreenCover(isPresented: $viewModel.showSetupView, onDismiss: {
+                viewModel.showSetupView = false
                 viewModel.openSubviewIfNeeded()
             }) {
-                switch viewModel.typeOfSubview {
-                case .setupGame:
-                    SetupGameView()
-                case .scoreboard:
-                    ScoreboardView()
-                default:
-                    ScoreboardView()
-                }
-                
+                SetupGameView()
             }
         }
+        
     }
 }
 

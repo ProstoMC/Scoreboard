@@ -34,6 +34,7 @@ struct HistoryView: View {
                     {
                         HStack {
                             Image(systemName: "eraser")
+                                .foregroundStyle(.accent)
                             Text(" C L E A R")
                                 .font(.subheadline)
                                 .foregroundStyle(.accent)

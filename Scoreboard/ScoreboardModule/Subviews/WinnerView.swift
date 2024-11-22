@@ -11,9 +11,9 @@ struct WinnerView: View {
     @Environment(\.dismiss) var dismiss
     
     let gameName: String
-    @Binding var players: [Player]
-    @Binding var gameState: GameState
+    var players: [Player]
     
+    @Binding var gameState: GameState
     
     var body: some View {
         GeometryReader { geometry in
@@ -39,6 +39,7 @@ struct WinnerView: View {
                                     Text("\(players[0].level)")
                                         .foregroundStyle(.accent)
                                         .font(.title2)
+                                        .multilineTextAlignment(.trailing)
                                 }
                             }
                             LineView(width: geometry.size.width/1.5, height: 1, color: .elements)
@@ -64,20 +65,23 @@ struct WinnerView: View {
                                     }
                                 }
                                 Spacer()
-                                VStack(alignment: .leading, spacing: 15) {
-                                    Text("\(players[0].level)")
+                                VStack(alignment: .trailing, spacing: 15) {
+                                    Text("\(players[1].level)")
                                         .foregroundStyle(.accent)
                                         .font(.headline)
+                                        .multilineTextAlignment(.trailing)
                                     if players.count > 2 {
-                                        Text("\(players[1].level)")
+                                        Text("\(players[2].level)")
                                             .foregroundStyle(.accent)
                                             .font(.headline)
+                                            .multilineTextAlignment(.trailing)
                                     }
                                     if players.count > 3 {
                                         ForEach (players.indices[3...], id: \.self) { index in
                                             Text("\(players[index].level)")
                                                 .foregroundStyle(.elements)
                                                 .font(.headline)
+                                                .multilineTextAlignment(.trailing)
                                         }
                                     }
                                 }
@@ -87,17 +91,16 @@ struct WinnerView: View {
                         .frame(width: geometry.size.width*0.6)
                         .padding(.bottom)
                         
-                        
                         //BUTTONS BLOCK
                         
                         Button(action: {
                             gameState = .finished
                             dismiss()
                         }) {
-                            Text("Finish game")
+                            Text("F I N I S H   G A M E")
                                 .tint(.accent)
                                 .font(.subheadline)
-                                .frame(width: geometry.size.width/3, height: 50)
+                                .frame(width: geometry.size.width/2.8, height: 40)
                                 .overlay(RoundedRectangle(cornerRadius: 25)
                                     .stroke(Color.elements))
                         }
@@ -134,14 +137,14 @@ struct WinnerView: View {
 
 #Preview {
     WinnerView(gameName: "C S  2",
-               players: .constant(
+               players:
                 [
-                    Player(name: "Player 1768", colorIndex: 3, closeToWin: true),
-                    Player(name: "Player 2", colorIndex: 6),
-                    Player(name: "Random"),
-                    Player(name: "Bot Rock")
-                ]
-               ),
+                    Player(name: "Player 1768", level: 4000),
+                    Player(name: "Player 2", level: 3, colorIndex: 6),
+                    Player(name: "Random", level: 3),
+                    Player(name: "Bot Rock", level: 1),
+                    Player(name: "Bot Dog", level: 10),
+                ],
                gameState: .constant(.empty)
     ).preferredColorScheme(.dark)
 }

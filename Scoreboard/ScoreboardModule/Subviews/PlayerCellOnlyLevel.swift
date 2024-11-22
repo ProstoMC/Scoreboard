@@ -20,7 +20,7 @@ struct PlayerCellOnlyLevel: View {
                 //USING ANIMATION WHEN CLOSE TO WIN
                 if player.closeToWin {
                     LinearGradient(
-                        colors: [.winColor1, .winColor2, .winColor1],
+                        colors: [playerColors[player.colorIndex].opacity(0.4), .winColor2, playerColors[player.colorIndex].opacity(0.4)],
                         startPoint: animateGradient ? .topLeading : .topTrailing,
                         endPoint: animateGradient ? .bottomTrailing : .topLeading
                     )

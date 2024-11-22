@@ -32,7 +32,7 @@ struct PlayerCellWithPower: View {
                 
                 if player.closeToWin {
                     LinearGradient(
-                        colors: [.orange.opacity(0.9), .yellow.opacity(0.9), .orange.opacity(0.9)],
+                        colors: [playerColors[player.colorIndex].opacity(0.4), .winColor2, playerColors[player.colorIndex].opacity(0.4)],
                         startPoint: animateGradient ? .topLeading : .topTrailing,
                         endPoint: animateGradient ? .bottomTrailing : .topLeading
                     )

@@ -62,7 +62,7 @@ struct DiceThrowView: View, Animatable {
                         ForEach (0 ..< diceCount, id: \.self) { index in
                             DiceRandomView(
                                 value: $diceValues[index],
-                                throwCount: Int.random(in: 10...20),
+                                throwCount: Int.random(in: 10...15),
                                 rollSpeed: Double.random(in: 0.05...0.15)
                             )
                             .frame(

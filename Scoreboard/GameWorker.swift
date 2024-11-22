@@ -7,23 +7,14 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 protocol SetupGameProtocol {
     
-    var gameSubject: PassthroughSubject<GameModel, Never> { get }
-    
-    func addPlayer(newPlayer: Player)
-    func deletePlayer(index: Int)
-    func setTraits(levelToWin: Int, diceCount: Int, powerUsing: Bool)
-    func readyToStartCheck()
-    
+    func setGame(game: GameModel)
     func resetGame()
-    func setGameState(gameState: GameState)
-    func getGameState() -> GameState
-    func setGameName(name: String)
     func sendGame()
-   
-    
+    func returnGame() -> GameModel
 }
 
 protocol ManageGameProtocol {
@@ -32,6 +23,7 @@ protocol ManageGameProtocol {
     func sendGame()
     func resetGame()
     func setGameState(gameState: GameState)
+    func returnGame() -> GameModel
     
     func rangePlayersByLevel()
     func updatePlayers(players: [Player])
@@ -39,72 +31,57 @@ protocol ManageGameProtocol {
 
 class GameWorker {
     
-    private var game = GameModel()
+    var game = GameModel()
     var gameSubject = PassthroughSubject<GameModel, Never>()
     
+    private var savingNumber = 0
     
     private var subscriptions = Set<AnyCancellable>()
     
-    func sendGame() {
-        print("Game state: \(game.state.rawValue)")
-        gameSubject.send(game)
+    init() {
+        subscribing()
+        getGameFromUserDefaults()
+        
     }
     
-    func resetGame() {
-        game = GameModel() //Just create new empty game
-        sendGame()
+    func sendGame() {
+        gameSubject.send(game)
+        
     }
     
     func setGameState(gameState: GameState) {
         game.state = gameState
         sendGame()
     }
-    func getGameState() -> GameState {
+    func returnGameState() -> GameState {
         game.state
     }
- 
     
+    func returnGame() -> GameModel {
+        game
+    }
+    func setGame(game: GameModel) {
+        self.game = game
+        
+        sendGame()
+    }
+    
+    func createNewGameFromTemplate(template: GameModel) {
+        self.game = template
+        for i in game.players.indices {
+            game.players[i].level = 0
+            game.players[i].stuff = 0
+        }
+        game.state = .inProgress
+        sendGame()
+    }
 }
 
-extension GameWorker: SetupGameProtocol {
-    func addPlayer(newPlayer: Player) {
-        print("Game worker added player: \(newPlayer.name)")
-        if newPlayer.name == "" { return }
-        for player in game.players {
-            if newPlayer.name == player.name {
-                return
-            }
-        }
-        game.players.append(newPlayer)
-        readyToStartCheck()
-        sendGame()
-    }
-    
-    func deletePlayer(index: Int) {
-        game.players.remove(at: index)
-        readyToStartCheck()
-        sendGame()
-    }
-    
-    func setTraits(levelToWin: Int, diceCount: Int, powerUsing: Bool) {
-        game.levelToWin = levelToWin
-        game.diceCount = diceCount
-        game.stuffUsing = powerUsing
-        printTraits()
-        sendGame()
-    }
 
-    func setGameName(name: String) {
-        game.name = name
-    }
-    
-    func readyToStartCheck() {
-        if game.players.count > 1 {
-            game.state = .readyToStart
-        }
-        else {
-            game.state = .new
-        }
+extension GameWorker: SetupGameProtocol {
+    func resetGame() {
+        game = GameModel() //Just create new empty game
+        sendGame()
     }
 }
 
@@ -116,7 +93,9 @@ extension GameWorker: ManageGameProtocol {
     
     func updatePlayers(players: [Player]) {
         game.players = players
-        checkPlayersForCloseToWin()
+        if game.levelToWin != 0 {
+            checkPlayersForCloseToWin()
+        }
         sendGame()
     }
 }
@@ -127,11 +106,10 @@ extension GameWorker {
 
     private func checkPlayersForCloseToWin() {
         for i in game.players.indices {
-            if game.players[i].level >= game.levelToWin - 1 ||
-                Double(game.players[i].level) >= Double(game.levelToWin)*0.9 {
+            if game.players[i].level >= game.levelToWin - 2 ||
+                    Double(game.players[i].level) >= Double(game.levelToWin)*0.8 {
                 
                 game.players[i].closeToWin = true
-                
             }
             else {
                 game.players[i].closeToWin = false
@@ -146,7 +124,35 @@ extension GameWorker {
         print("Dice count: \(game.diceCount)")
         print("Power using: \(game.stuffUsing)")
     }
-    
+}
 
+
+//MARK: - USER DEFAULTS
+extension GameWorker {
     
+    func subscribing() {
+        gameSubject.sink { [weak self] _ in
+            self?.saveGameToUserDefaults()
+        }.store(in: &subscriptions)
+    }
+    
+    func saveGameToUserDefaults() {
+        let encoder = JSONEncoder()
+        if let data = try? encoder.encode(game) {
+            let defaults = UserDefaults.standard
+            defaults.set(data, forKey: "currentGame")
+            print("--- Game - \(game.name) - saved --- \(savingNumber)")
+            savingNumber += 1
+        }
+    }
+    
+    func getGameFromUserDefaults() {
+        let defaults = UserDefaults.standard
+        if let data = defaults.object(forKey: "currentGame") as? Data {
+            let decoder = JSONDecoder()
+            if let savedGame = try? decoder.decode(GameModel.self, from: data) {
+                self.game = savedGame
+            }
+        }
+    }
 }

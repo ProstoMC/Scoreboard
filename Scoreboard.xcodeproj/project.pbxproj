@@ -3,27 +3,30 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		840C0DC22CCBB047002856CA /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840C0DC12CCBB047002856CA /* HistoryView.swift */; };
+		840C0DC42CCBB059002856CA /* HistoryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840C0DC32CCBB053002856CA /* HistoryVM.swift */; };
 		8415322F2CAC137700F0E862 /* GameWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8415322E2CAC137500F0E862 /* GameWorker.swift */; };
+		8415C2802CED0EDE0071BCF8 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8415C27F2CED0EDA0071BCF8 /* GameCell.swift */; };
+		8415C2822CEDF87F0071BCF8 /* AppSettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8415C2812CEDF8770071BCF8 /* AppSettingsVM.swift */; };
+		8415C2842CEDFE260071BCF8 /* ColorSchemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8415C2832CEDFE260071BCF8 /* ColorSchemeView.swift */; };
+		842E14B52CD136FC0014750D /* HistoryWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842E14B42CD136F50014750D /* HistoryWorker.swift */; };
+		843ACC692CEF9149004CC890 /* WidgetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843ACC682CEF9149004CC890 /* WidgetsView.swift */; };
+		843ACC6B2CEF930D004CC890 /* DiceWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843ACC6A2CEF930D004CC890 /* DiceWidgetView.swift */; };
 		844382BF2CA1CD0C005F1FBC /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844382BE2CA1CD0C005F1FBC /* MainMenuView.swift */; };
 		844382C12CA1E4AD005F1FBC /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844382C02CA1E4AD005F1FBC /* AppSettingsView.swift */; };
 		844382C62CA21699005F1FBC /* ScoreboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844382C52CA21699005F1FBC /* ScoreboardView.swift */; };
 		844382C92CA21720005F1FBC /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844382C82CA21720005F1FBC /* Models.swift */; };
 		844382CB2CA35324005F1FBC /* SetupGameVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844382CA2CA35324005F1FBC /* SetupGameVM.swift */; };
-		844382CD2CA35B23005F1FBC /* PlayerCellOnlyLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844382CC2CA35B23005F1FBC /* PlayerCellOnlyLevel.swift */; };
 		844382CF2CA57CED005F1FBC /* AddPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844382CE2CA57CED005F1FBC /* AddPlayerView.swift */; };
 		844382D12CA5846D005F1FBC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844382D02CA5846D005F1FBC /* Extensions.swift */; };
 		844382D32CA6AB13005F1FBC /* CoreWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844382D22CA6AB13005F1FBC /* CoreWorker.swift */; };
+		8455E5882CECBF740025BA4F /* ReviewGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455E5872CECBF740025BA4F /* ReviewGame.swift */; };
 		847AF0F82CB1742C0061BDEA /* LevelSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AF0F72CB1742C0061BDEA /* LevelSetupView.swift */; };
-		849D76B92CBC1B4500F573D9 /* EditPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849D76B82CBC1B3C00F573D9 /* EditPlayerView.swift */; };
-		849D76BB2CC0102200F573D9 /* PulseProtectorForCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849D76BA2CC0102200F573D9 /* PulseProtectorForCellView.swift */; };
 		84BC8CBB2CB1F49200B87F63 /* PulseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC8CBA2CB1F49000B87F63 /* PulseCell.swift */; };
-		84BC8CBD2CB5570700B87F63 /* DiceThrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC8CBC2CB5570500B87F63 /* DiceThrowView.swift */; };
-		84BC8CBF2CB55C8800B87F63 /* DiceRandomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC8CBE2CB55C8600B87F63 /* DiceRandomView.swift */; };
-		84BC8CC32CB7F11600B87F63 /* PlayerCellWithPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC8CC22CB7F11600B87F63 /* PlayerCellWithPower.swift */; };
 		84CA8E012CAD7F1F0013A6B3 /* ScoreboardVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CA8E002CAD7F060013A6B3 /* ScoreboardVM.swift */; };
 		84CA8E032CAD8B3E0013A6B3 /* MainMenuVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CA8E022CAD8B3D0013A6B3 /* MainMenuVM.swift */; };
 		84EB42CB2CB0475600CF1CC6 /* DiceSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EB42CA2CB0475600CF1CC6 /* DiceSetupView.swift */; };
@@ -38,23 +41,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		840C0DC12CCBB047002856CA /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		840C0DC32CCBB053002856CA /* HistoryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryVM.swift; sourceTree = "<group>"; };
 		8415322E2CAC137500F0E862 /* GameWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameWorker.swift; sourceTree = "<group>"; };
+		8415C27F2CED0EDA0071BCF8 /* GameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
+		8415C2812CEDF8770071BCF8 /* AppSettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsVM.swift; sourceTree = "<group>"; };
+		8415C2832CEDFE260071BCF8 /* ColorSchemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeView.swift; sourceTree = "<group>"; };
+		842E14B42CD136F50014750D /* HistoryWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryWorker.swift; sourceTree = "<group>"; };
+		843ACC682CEF9149004CC890 /* WidgetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetsView.swift; sourceTree = "<group>"; };
+		843ACC6A2CEF930D004CC890 /* DiceWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceWidgetView.swift; sourceTree = "<group>"; };
 		844382BE2CA1CD0C005F1FBC /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		844382C02CA1E4AD005F1FBC /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
 		844382C52CA21699005F1FBC /* ScoreboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardView.swift; sourceTree = "<group>"; };
 		844382C82CA21720005F1FBC /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		844382CA2CA35324005F1FBC /* SetupGameVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupGameVM.swift; sourceTree = "<group>"; };
-		844382CC2CA35B23005F1FBC /* PlayerCellOnlyLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCellOnlyLevel.swift; sourceTree = "<group>"; };
 		844382CE2CA57CED005F1FBC /* AddPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerView.swift; sourceTree = "<group>"; };
 		844382D02CA5846D005F1FBC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		844382D22CA6AB13005F1FBC /* CoreWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreWorker.swift; sourceTree = "<group>"; };
+		8455E5872CECBF740025BA4F /* ReviewGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewGame.swift; sourceTree = "<group>"; };
 		847AF0F72CB1742C0061BDEA /* LevelSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSetupView.swift; sourceTree = "<group>"; };
-		849D76B82CBC1B3C00F573D9 /* EditPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlayerView.swift; sourceTree = "<group>"; };
-		849D76BA2CC0102200F573D9 /* PulseProtectorForCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseProtectorForCellView.swift; sourceTree = "<group>"; };
 		84BC8CBA2CB1F49000B87F63 /* PulseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseCell.swift; sourceTree = "<group>"; };
-		84BC8CBC2CB5570500B87F63 /* DiceThrowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceThrowView.swift; sourceTree = "<group>"; };
-		84BC8CBE2CB55C8600B87F63 /* DiceRandomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceRandomView.swift; sourceTree = "<group>"; };
-		84BC8CC22CB7F11600B87F63 /* PlayerCellWithPower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCellWithPower.swift; sourceTree = "<group>"; };
 		84CA8E002CAD7F060013A6B3 /* ScoreboardVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardVM.swift; sourceTree = "<group>"; };
 		84CA8E022CAD8B3D0013A6B3 /* MainMenuVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuVM.swift; sourceTree = "<group>"; };
 		84EB42CA2CB0475600CF1CC6 /* DiceSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceSetupView.swift; sourceTree = "<group>"; };
@@ -69,6 +75,10 @@
 		84EBE6032C62BD5500E6F257 /* PlayersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		8455E57F2CE209230025BA4F /* Subviews */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Subviews; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		84EBE5E12C53B71300E6F257 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -80,10 +90,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		840C0DC02CCBB027002856CA /* HistoryModule */ = {
+			isa = PBXGroup;
+			children = (
+				840C0DC12CCBB047002856CA /* HistoryView.swift */,
+				840C0DC32CCBB053002856CA /* HistoryVM.swift */,
+				8415C27F2CED0EDA0071BCF8 /* GameCell.swift */,
+				8455E5872CECBF740025BA4F /* ReviewGame.swift */,
+			);
+			path = HistoryModule;
+			sourceTree = "<group>";
+		};
+		843ACC672CEF90CD004CC890 /* WidgetsModule */ = {
+			isa = PBXGroup;
+			children = (
+				843ACC682CEF9149004CC890 /* WidgetsView.swift */,
+				843ACC6A2CEF930D004CC890 /* DiceWidgetView.swift */,
+			);
+			path = WidgetsModule;
+			sourceTree = "<group>";
+		};
 		844382C32CA2154D005F1FBC /* SettingsModule */ = {
 			isa = PBXGroup;
 			children = (
+				8415C2812CEDF8770071BCF8 /* AppSettingsVM.swift */,
 				844382C02CA1E4AD005F1FBC /* AppSettingsView.swift */,
+				8415C2832CEDFE260071BCF8 /* ColorSchemeView.swift */,
 			);
 			path = SettingsModule;
 			sourceTree = "<group>";
@@ -91,14 +123,9 @@
 		844382C42CA21682005F1FBC /* ScoreboardModule */ = {
 			isa = PBXGroup;
 			children = (
+				8455E57F2CE209230025BA4F /* Subviews */,
 				844382C52CA21699005F1FBC /* ScoreboardView.swift */,
 				84CA8E002CAD7F060013A6B3 /* ScoreboardVM.swift */,
-				844382CC2CA35B23005F1FBC /* PlayerCellOnlyLevel.swift */,
-				84BC8CC22CB7F11600B87F63 /* PlayerCellWithPower.swift */,
-				84BC8CBE2CB55C8600B87F63 /* DiceRandomView.swift */,
-				84BC8CBC2CB5570500B87F63 /* DiceThrowView.swift */,
-				849D76B82CBC1B3C00F573D9 /* EditPlayerView.swift */,
-				849D76BA2CC0102200F573D9 /* PulseProtectorForCellView.swift */,
 			);
 			path = ScoreboardModule;
 			sourceTree = "<group>";
@@ -133,13 +160,16 @@
 		84EBE5E62C53B71300E6F257 /* Scoreboard */ = {
 			isa = PBXGroup;
 			children = (
-				844382D22CA6AB13005F1FBC /* CoreWorker.swift */,
+				842E14B42CD136F50014750D /* HistoryWorker.swift */,
 				8415322E2CAC137500F0E862 /* GameWorker.swift */,
+				844382D22CA6AB13005F1FBC /* CoreWorker.swift */,
 				844382C72CA216A7005F1FBC /* Models */,
 				84EBE5FB2C55926C00E6F257 /* MainModule */,
 				844382C42CA21682005F1FBC /* ScoreboardModule */,
 				844382C32CA2154D005F1FBC /* SettingsModule */,
-				84EBE5FC2C55927800E6F257 /* SetupGame */,
+				84EBE5FC2C55927800E6F257 /* SetupGameModule */,
+				840C0DC02CCBB027002856CA /* HistoryModule */,
+				843ACC672CEF90CD004CC890 /* WidgetsModule */,
 				84EBE5ED2C53B71500E6F257 /* Assets.xcassets */,
 				84EBE5EF2C53B71500E6F257 /* Preview Content */,
 			);
@@ -157,15 +187,15 @@
 		84EBE5FB2C55926C00E6F257 /* MainModule */ = {
 			isa = PBXGroup;
 			children = (
-				84BC8CBA2CB1F49000B87F63 /* PulseCell.swift */,
 				844382BE2CA1CD0C005F1FBC /* MainMenuView.swift */,
 				84CA8E022CAD8B3D0013A6B3 /* MainMenuVM.swift */,
 				84EBE5FD2C55968D00E6F257 /* MainMenuCell.swift */,
+				84BC8CBA2CB1F49000B87F63 /* PulseCell.swift */,
 			);
 			path = MainModule;
 			sourceTree = "<group>";
 		};
-		84EBE5FC2C55927800E6F257 /* SetupGame */ = {
+		84EBE5FC2C55927800E6F257 /* SetupGameModule */ = {
 			isa = PBXGroup;
 			children = (
 				84EBE5F92C53C61700E6F257 /* SetupGameView.swift */,
@@ -176,7 +206,7 @@
 				84EB42CA2CB0475600CF1CC6 /* DiceSetupView.swift */,
 				847AF0F72CB1742C0061BDEA /* LevelSetupView.swift */,
 			);
-			path = SetupGame;
+			path = SetupGameModule;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,6 +223,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8455E57F2CE209230025BA4F /* Subviews */,
 			);
 			name = Scoreboard;
 			productName = Scoreboard;
@@ -250,26 +283,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				844382BF2CA1CD0C005F1FBC /* MainMenuView.swift in Sources */,
-				84BC8CC32CB7F11600B87F63 /* PlayerCellWithPower.swift in Sources */,
-				844382CD2CA35B23005F1FBC /* PlayerCellOnlyLevel.swift in Sources */,
 				844382C62CA21699005F1FBC /* ScoreboardView.swift in Sources */,
 				84EBE6042C62BD5500E6F257 /* PlayersView.swift in Sources */,
 				844382C92CA21720005F1FBC /* Models.swift in Sources */,
 				84EBE5FA2C53C61700E6F257 /* SetupGameView.swift in Sources */,
 				84CA8E012CAD7F1F0013A6B3 /* ScoreboardVM.swift in Sources */,
-				849D76B92CBC1B4500F573D9 /* EditPlayerView.swift in Sources */,
-				84BC8CBF2CB55C8800B87F63 /* DiceRandomView.swift in Sources */,
+				840C0DC22CCBB047002856CA /* HistoryView.swift in Sources */,
+				842E14B52CD136FC0014750D /* HistoryWorker.swift in Sources */,
+				843ACC6B2CEF930D004CC890 /* DiceWidgetView.swift in Sources */,
+				8415C2802CED0EDE0071BCF8 /* GameCell.swift in Sources */,
+				8415C2842CEDFE260071BCF8 /* ColorSchemeView.swift in Sources */,
 				847AF0F82CB1742C0061BDEA /* LevelSetupView.swift in Sources */,
 				844382C12CA1E4AD005F1FBC /* AppSettingsView.swift in Sources */,
 				844382CB2CA35324005F1FBC /* SetupGameVM.swift in Sources */,
 				844382CF2CA57CED005F1FBC /* AddPlayerView.swift in Sources */,
+				840C0DC42CCBB059002856CA /* HistoryVM.swift in Sources */,
 				84EB42CB2CB0475600CF1CC6 /* DiceSetupView.swift in Sources */,
-				84BC8CBD2CB5570700B87F63 /* DiceThrowView.swift in Sources */,
 				844382D12CA5846D005F1FBC /* Extensions.swift in Sources */,
 				8415322F2CAC137700F0E862 /* GameWorker.swift in Sources */,
+				843ACC692CEF9149004CC890 /* WidgetsView.swift in Sources */,
+				8415C2822CEDF87F0071BCF8 /* AppSettingsVM.swift in Sources */,
 				844382D32CA6AB13005F1FBC /* CoreWorker.swift in Sources */,
+				8455E5882CECBF740025BA4F /* ReviewGame.swift in Sources */,
 				84EBE5E82C53B71300E6F257 /* ScoreboardApp.swift in Sources */,
-				849D76BB2CC0102200F573D9 /* PulseProtectorForCellView.swift in Sources */,
 				84EBE5F82C53C45400E6F257 /* ViewStore.swift in Sources */,
 				84BC8CBB2CB1F49200B87F63 /* PulseCell.swift in Sources */,
 				84CA8E032CAD8B3E0013A6B3 /* MainMenuVM.swift in Sources */,
@@ -411,10 +447,12 @@
 				DEVELOPMENT_TEAM = DV2KL8GXVB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Scoreboard;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.board-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -441,10 +479,12 @@
 				DEVELOPMENT_TEAM = DV2KL8GXVB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Scoreboard;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.board-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
