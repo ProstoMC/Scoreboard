@@ -16,6 +16,7 @@ struct GameModel: Identifiable, Hashable, Codable {
     var stuffUsing: Bool = false
     var diceCount: Int = 0
     var levelToWin: Int = 0
+    var timerUsing: Bool = false
     
     var players: [Player] = []
     var winner: Player! = nil

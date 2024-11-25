@@ -23,12 +23,6 @@ struct SetupGameView: View {
                 ZStack {
                     Color.background.ignoresSafeArea()
                     VStack {
-//                        Image(systemName: viewModel.gameImageName)
-//                            .resizable()
-//                            .scaledToFit()
-//                            .foregroundStyle(.elements)
-//                            .frame(width: geometry.size.width/6, height: geometry.size.width/6)
-//                            .padding(.top)
                         
                         TextField("New game", text: $viewModel.gameName)
                             .focused($nameTextFieldIsFocused)
@@ -45,40 +39,53 @@ struct SetupGameView: View {
                             .padding(.bottom)
                         //Traits panel
                         
-                        HStack {
-                            Button(action: {
-                                closeKeyboard()
-                                viewModel.setupViewType = "maxLevel"
-                                subviewIsShown = true
-                            }, label: {
-                                SettingsGameCell(name: "Max Level", systemImageName: "arrowshape.up", isActive: $viewModel.maxLevelUsing)
-                            })
-                            .frame(width: geometry.size.width*0.28, height: geometry.size.width*0.25/2)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                closeKeyboard()
-                                self.viewModel.togglePowerUsing()
+                        ScrollView(.horizontal) {
+                            HStack {
+                                Button(action: {
+                                    closeKeyboard()
+                                    viewModel.setupViewType = "maxLevel"
+                                    subviewIsShown = true
+                                }, label: {
+                                    SettingsGameCell(name: "Max Level", systemImageName: "arrowshape.up", isActive: $viewModel.maxLevelUsing)
+                                })
+                                .frame(width: geometry.size.width*0.3, height: geometry.size.width*0.25/2)
                                 
-                            }, label: {
-                                SettingsGameCell(name: "Use Stuff", systemImageName: "shield.righthalf.filled", isActive: $viewModel.stuffUsing)
-                            })
-                            .frame(width: geometry.size.width*0.28, height: geometry.size.width*0.25/2)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                closeKeyboard()
-                                viewModel.setupViewType = "dice"
-                                subviewIsShown = true
+                                Spacer()
                                 
-                            }, label: {
-                                SettingsGameCell(name: "Use Dice", systemImageName: "dice", isActive: $viewModel.diceUsing)
-                            })
-                            .frame(width: geometry.size.width*0.28, height: geometry.size.width*0.25/2)
+                                Button(action: {
+                                    closeKeyboard()
+                                    self.viewModel.togglePowerUsing()
+                                    
+                                }, label: {
+                                    SettingsGameCell(name: "Use Stuff", systemImageName: "shield.righthalf.filled", isActive: $viewModel.stuffUsing)
+                                })
+                                .frame(width: geometry.size.width*0.3, height: geometry.size.width*0.25/2)
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    closeKeyboard()
+                                    viewModel.setupViewType = "dice"
+                                    subviewIsShown = true
+                                    
+                                }, label: {
+                                    SettingsGameCell(name: "Use Dice", systemImageName: "dice", isActive: $viewModel.diceUsing)
+                                })
+                                .frame(width: geometry.size.width*0.3, height: geometry.size.width*0.25/2)
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    closeKeyboard()
+                                    viewModel.toggleTimerUsing()
+                                }, label: {
+                                    SettingsGameCell(name: "Use Timer", systemImageName: "timer", isActive: $viewModel.timerUsing)
+                                })
+                                .frame(width: geometry.size.width*0.3, height: geometry.size.width*0.25/2)
+                            }
                         }
                         .frame(width: geometry.size.width*0.9)
+                        .scrollIndicators(.hidden)
                         
                         LineView(width: geometry.size.width*0.9, height: 1, color: .elements)
                             .padding()

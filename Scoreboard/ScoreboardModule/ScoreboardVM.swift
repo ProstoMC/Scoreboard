@@ -22,6 +22,7 @@ class ScoreboardVM: ObservableObject {
         Player(name: "Random"),
         Player(name: "Bot Rock")]
     
+    @Published var timerUsing = true
     @Published var maxLevelUsing = true
     @Published var stuffUsing = false
     @Published var diceUsing = true

@@ -14,11 +14,13 @@ struct WidgetsView: View {
             ZStack {
                 Color("background").ignoresSafeArea()
                 VStack {
-                    DiceWidgetView()
-                        .frame(height: geometry.size.height/2.1)
+                    
+                    TimerWidgetView()
+                       // .frame(height: geometry.size.height/2.1)
                     LineView(width: geometry.size.width*0.95, height: 1, color: .accent)
                     DiceWidgetView()
-                        .frame(height: geometry.size.height/2.1)
+                       // .frame(height: geometry.size.height/2.1)
+                    Spacer()
                 }
 
             }
@@ -35,4 +37,5 @@ struct WidgetsView: View {
 
 #Preview {
     WidgetsView()
+        .preferredColorScheme(.dark)
 }

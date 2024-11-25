@@ -71,6 +71,13 @@ struct ReviewGame: View {
                                     .frame(width: 20, height: 20)
                                     .foregroundStyle(.accent)
                             }
+                            if game.timerUsing {
+                                Image(systemName: "timer")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20, height: 20)
+                                    .foregroundStyle(.accent)
+                            }
                             
                         }
                         

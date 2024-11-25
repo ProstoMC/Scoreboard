@@ -19,9 +19,10 @@ struct DiceWidgetView: View {
     
     private func calcSum() {
         sum = 0
-        for i in 0..<diceCount { //Show result only after final setting
+        for i in 0..<diceCount-1 { //Show result only after final setting
             if diceValues[i] == 0 {
                 sum = 0
+                return
             }
             sum += diceValues[i]
         }
@@ -73,6 +74,9 @@ struct DiceWidgetView: View {
                                         width: geometry.size.width / 5,
                                         height: geometry.size.width / 5
                                     )
+                                    .onTapGesture {
+                                        blinkToRestart()
+                                    }
                             }
                         }.padding(.top, geometry.size.height*0.2)
                     }
@@ -92,6 +96,9 @@ struct DiceWidgetView: View {
                                     color: .elements,
                                     radius: (sum == 0) ? 0 : 3
                                 )
+                                .onTapGesture {
+                                    blinkToRestart()
+                                }
                             }
                         }.padding(.top, geometry.size.height*0.2)
                     }

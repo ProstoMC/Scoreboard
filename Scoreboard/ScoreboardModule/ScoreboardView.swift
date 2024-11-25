@@ -23,13 +23,13 @@ struct ScoreboardView: View {
                         LineView(width: geometry.size.width, height: 1, color: .accent)
                         Spacer()
                         
-                        //MARK: - INFO MODULE
+//MARK: - INFO MODULE
                         if viewModel.maxLevelUsing {
                             HStack {
                                 Text(viewModel.infoWinnerText)
                                     .font(.subheadline)
                                 Spacer()
-                                //MARK: - Show result view button
+//MARK: - Show result view button
                                 
                                 if viewModel.gameState == .hasAWinner {
                                     Button(action: {
@@ -51,7 +51,7 @@ struct ScoreboardView: View {
                             
                         }
 
-                        //MARK: - PLAYERS
+//MARK: - PLAYERS
                         ScrollView {
                             ForEach($viewModel.players) { $player in
                                 
@@ -79,22 +79,30 @@ struct ScoreboardView: View {
                         
 
                         
-                        //MARK: - DICE BUTTON
-                        if viewModel.diceUsing {
+//MARK: - DICE BUTTON
+                        if viewModel.diceUsing || viewModel.timerUsing {
                             HStack {
-                                Spacer()
-                                Button(action: {
-                                    viewModel.showDiceSubview()
-                                }) {
-                                    DiceButtonView()
-                                        .frame(width: 60, height: 60)
+                                if viewModel.timerUsing {
+                                    TimerButtonView()
+                                        .frame(height: 60)
                                         .padding()
-                                        .shadow(color: .elements, radius: 3)
                                 }
+                                Spacer()
+                                if viewModel.diceUsing {
+                                    Button(action: {
+                                        viewModel.showDiceSubview()
+                                    }) {
+                                        DiceButtonView()
+                                            .frame(width: 60, height: 60)
+                                            .padding()
+                                            .shadow(color: .elements, radius: 3)
+                                    }
+                                }
+                                
                             }
                         }
                     }
-                    //MARK: - SETUP NAVIGATION BAR
+//MARK: - SETUP NAVIGATION BAR
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         //Title

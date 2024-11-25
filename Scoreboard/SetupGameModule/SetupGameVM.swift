@@ -27,6 +27,9 @@ class SetupGameVM: ObservableObject {
     
     @Published var diceUsing = false
     @Published var diceCount: Int = 0
+    
+    @Published var timerUsing = false
+    
     @Published var readyToStart: Bool = false
     
     @Published var gameState: GameState = .new
@@ -55,6 +58,10 @@ class SetupGameVM: ObservableObject {
 
     func togglePowerUsing() {
         stuffUsing.toggle()
+    }
+    
+    func toggleTimerUsing() {
+        timerUsing.toggle()
     }
     
     func setTraitsButtons() {
@@ -99,6 +106,7 @@ class SetupGameVM: ObservableObject {
             stuffUsing: stuffUsing,
             diceCount: diceCount,
             levelToWin: levelToWin,
+            timerUsing: timerUsing,
             
             players: players,
             state: gameState
